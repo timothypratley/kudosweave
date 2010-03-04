@@ -1,33 +1,25 @@
 (ns com.kudosweave.servlet
-  ;(:import [com.google.appengine.api.users UserServiceFactory])
-  (:use compojure)
-  (:gen-class :extends javax.servlet.http.HttpServlet))
+  (:gen-class :extends javax.servlet.http.HttpServlet)
+  (:use com.kudosweave.template)
+  (:use ring.util.servlet)
+  (:use compojure))
 
-(defn html-doc
-  [title & body]
-  (html (doctype :html4)
-        [:html
-         [:head
-          [:title (str title " - Kudos Weave")]]
-         [:body
-          [:div
-           [:h2
-            [:a {:href "/"} "Kudos Weave"]]]
-          #_(let [user-service (UserServiceFactory/getUserService)]
-            (if-let [user (.getCurrentUser (UserServiceFactory/getUserService))]
-              [:p (.getNickname user) " - " (link-to (.createLogoutURL user-service "/") "sign out")]
-              [:p (link-to (.createLoginURL user-service "/") "sign in")]))
-          body
-          [:img {:src "http://code.google.com/appengine/images/appengine-silver-120x30.gif"
-                 :alt "Powered by Google App Engine"
-                 :href "http://code.google.com/appengine/"}]]]))
+(defn success [body]
+  {:status 200 :headers {} :body body})
+(defn failure [body]
+  {:status 404 :headers {} :body body})
 
 (defroutes webservice
-           (GET "/" (html-doc "Welcome"
-                              [:p "This site will be a proof of concept network of trust."]))
-           (GET "/blah" (html-doc "Blah"
-                                  [:p "Right now there is not much to see"]))
-           (ANY "*" (page-not-found)))
+           (GET "/" req (success
+                          (html-doc "Welcome"
+                                    [:p "This site will be a proof of concept network of trust."])))
+           (GET "/blah" req (success
+                              (html-doc "Blah"
+                                        [:p "Right now there is not much to see"])))
+           ;(GET "/*" req (or (serve-file (params :*)) :next))
+           (ANY "*" req (failure
+                          (html-doc "Not Found"
+                                    [:p "404 not found"]))))
 
 (defservice webservice)
 
