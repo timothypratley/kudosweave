@@ -6,7 +6,10 @@
   [title & body]
   (html [:html
          [:head
-          [:title (str title " - Kudos Weave")]]
+          [:title (str title " - Kudos Weave")]
+          [:link {:rel "shortcut icon"
+                  :href "/favicon.ico"
+                  :type="image/ico"}]]
          [:body
           [:div
            [:h2
