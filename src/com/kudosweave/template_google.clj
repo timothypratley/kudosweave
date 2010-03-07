@@ -1,6 +1,6 @@
 (ns com.kudosweave.template-google
   (:import [com.google.appengine.api.users UserServiceFactory])
-  (:use hiccup))
+  (:use compojure.html))
 
 (defn render-content
   [c]

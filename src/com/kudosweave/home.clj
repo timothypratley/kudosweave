@@ -7,8 +7,8 @@
 
 (defn render-player
   [p]
-  [:li (str p) [:a {:href (str "/attack?player=" (:username p))} "[attack]"]
-               [:a {:href (str "/ally?player=" (:username p))} "[ally]"]])
+  [:li (str p) [:a {:href (str "/attack/" (:username p))} "[attack]"]
+               [:a {:href (str "/ally/" (:username p))} "[ally]"]])
 
 
 (defn home
