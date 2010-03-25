@@ -1,27 +1,27 @@
 (ns com.kudosweave.template
   (:import [com.google.appengine.api.users UserServiceFactory])
-  (:use hiccup))
+  (:use [compojure.html :as c]))
 
 (defn layout
   [title content]
-  (html [:html
-         [:head
-          [:title (str title " - Kudos Weave")]
-          [:link {:rel "shortcut icon"
-                  :href "/favicon.ico"
-                  :type="image/ico"}]
-          [:link {:rel "stylesheet"
-                  :media "screen,projection"
-                  :type "text/css"
-                  :href "/css/main.css"}]
-          [:link {:rel "stylesheet"
-                  :media "print"
-                  :type "text/css"
-                  :href "/css/print.css"}]
-          [:link {:rel "stylesheet"
-                  :media "aural"
-                  :type "text/css"
-                  :href "/css/aural.css"}]]
+  (c/html [:html
+           [:head
+            [:title (str title " - Kudos Weave")]
+            [:link {:rel "shortcut icon"
+                    :href "/favicon.ico"
+                    :type="image/ico"}]
+            [:link {:rel "stylesheet"
+                    :media "screen,projection"
+                    :type "text/css"
+                    :href "/css/main.css"}]
+            [:link {:rel "stylesheet"
+                    :media "print"
+                    :type "text/css"
+                    :href "/css/print.css"}]
+            [:link {:rel "stylesheet"
+                    :media "aural"
+                    :type "text/css"
+                    :href "/css/aural.css"}]]
          [:body
           [:div {:id "main", :class "box"}
            [:div {:id "header"}

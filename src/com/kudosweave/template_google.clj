@@ -1,5 +1,5 @@
 (ns com.kudosweave.template-google
-  (:import [com.google.appengine.api.users UserServiceFactory])
+  (:use com.kudosweave.user-service)
   (:use compojure.html))
 
 (defn render-content
@@ -7,6 +7,13 @@
   [:tr
    [:td {:id "sites-canvas-wrapper"}
     [:div {:id "sites-canvas"} c]]])
+
+(defn login-box
+  []
+  (if (is-logged-in)
+    [:h3 (.getNickname (get-user)) " - "
+     [:a {:href (get-logout-url "/")} "sign out"]]
+    [:h2 [:a {:href (get-login-url "/")} "sign in"]]))
 
 (defn layout
   [title content]
@@ -28,12 +35,10 @@
               [:table {:id "sities-chrome-header", :class "sites-layout-hbox"}
                [:tr {:class "sites-header-primary-row"}
                 [:td {:id "sites-header-title"}
-                 [:h2 [:a {:href "http://play.kudosweave.com", :dir "ltr"} "Play Kudos Weave"]]]
+                 [:h2 [:a {:href "/", :dir "ltr"} "Kudos Weave"]]
+                 [:h3 [:a {:href "http://www.kudosweave.com", :dir "ltr"} "Home"]]]
                 [:td {:class "sites-layout-searchbox"}
-                 (let [user-service (UserServiceFactory/getUserService)]
-                   (if-let [user (.getCurrentUser (UserServiceFactory/getUserService))]
-                     [:h3 (.getNickname user) " - " [:a {:href (.createLogoutURL user-service "/")} "sign out"]]
-                     [:h2 [:a {:href (.createLoginURL user-service "/")} "sign in"]]))]]]]
+                 (login-box)]]]]
              [:div {:id "sites-chrome-main-wrapper"}
               [:div {:id "sites-chrome-main-wrapper-inside"}
                [:table {:id "sites-chrome-main", :class "sites-layout-hbox", :cellspacing "0"}

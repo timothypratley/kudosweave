@@ -1,19 +1,23 @@
 (ns com.kudosweave.servlet
   (:gen-class :extends javax.servlet.http.HttpServlet)
-  (:use com.kudosweave.template)
-  (:use com.kudosweave.not-found)
-  (:use com.kudosweave.home)
-  (:use com.kudosweave.attack)
-  (:use com.kudosweave.ally)
-  (:use compojure.http.servlet)
-  (:use compojure))
+  (:require [com.kudosweave.template :as t])
+  (:use com.kudosweave.pages.home)
+  (:use com.kudosweave.pages.login)
+  (:use com.kudosweave.pages.not-authorized)
+  (:use com.kudosweave.pages.attack)
+  (:use com.kudosweave.pages.ally)
+  (:use com.kudosweave.pages.not-found)
+  (:require [compojure.http.servlet :as cs])
+  (:require [compojure :as c]))
 
 
-(defroutes webservice
-           (GET "/" req (home req))
-           (GET "/attack/:player" [player] (attack player))
-           (GET "/ally/:player" [player] (ally player))
-           (ANY "*" req (not-found req)))
+; TODO: do login/auth middleware
+(c/defroutes webservice
+           (c/GET "/" req (home t/layout req))
+           (c/GET "/login" req (login t/layout req))
+           (c/GET "/attack/:player" [player] (attack t/layout player))
+           (c/GET "/ally/:player" [player] (ally t/layout player))
+           (c/ANY "*" req (not-found t/layout req)))
 
-(defservice webservice)
+(c/defservice webservice)
 
