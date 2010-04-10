@@ -2,6 +2,7 @@
             :description "Kudos Weave"
             :dependencies [[org.clojure/clojure "1.1.0"]
                            [org.clojure/clojure-contrib "1.1.0"]
+                           ;[compojure "3.2.0"]
                            ;[org.buntin/compojure "0.4.0-SNAPSHOT"]
                            ;[hiccup "0.4.0-SNAPSHOT"]
                            ;[ring "0.1.1-SNAPSHOT"]

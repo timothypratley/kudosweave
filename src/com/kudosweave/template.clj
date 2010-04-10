@@ -1,10 +1,10 @@
 (ns com.kudosweave.template
   (:import [com.google.appengine.api.users UserServiceFactory])
-  (:use [compojure.html :as c]))
+  (:require [hiccup.core :as h]))
 
 (defn layout
   [title content]
-  (c/html [:html
+  (h/html [:html
            [:head
             [:title (str title " - Kudos Weave")]
             [:link {:rel "shortcut icon"

@@ -1,6 +1,6 @@
 (ns com.kudosweave.template-google
-  (:use com.kudosweave.user-service)
-  (:use compojure.html))
+  (:require [com.kudosweave.user-service :as u])
+  (:require [hiccup.core :as h]))
 
 (defn render-content
   [c]
@@ -10,14 +10,14 @@
 
 (defn login-box
   []
-  (if (is-logged-in)
-    [:h3 (.getNickname (get-user)) " - "
-     [:a {:href (get-logout-url "/")} "sign out"]]
-    [:h2 [:a {:href (get-login-url "/")} "sign in"]]))
+  (if (u/is-logged-in)
+    [:h3 (u/get-user) " - "
+     [:a {:href (u/get-logout-url "/")} "sign out"]]
+    [:h2 [:a {:href (u/get-login-url "/")} "sign in"]]))
 
 (defn layout
   [title content]
-  (html [:html {:xmlns "http://www.w3.org/1999/xhtml"}
+  (h/html [:html {:xmlns "http://www.w3.org/1999/xhtml"}
          [:head
           [:title (str title " - Kudos Weave")]
           [:link {:rel "shortcut icon" :href "/favicon.ico" :type="image/ico"}]
